@@ -15,7 +15,29 @@
     (shrink-window-horizontally 2)
     (let ((buf (buffer-name)))
       (other-window 1)
-      (run-scheme "gxi")
+      (run-scheme gerbil-gxi)
       ;; (switch-to-buffer-other-window "*scheme*" nil)
       ;; (switch-to-buffer buf)
-      )))
+      ))
+
+  (defun spacemacs//gerbil-backend ()
+    (if gerbil-backend
+        ;; maintain the selection if it exists
+        gerbil-backend
+        ;; otherwise use the default gerbil mode
+        `gerbil))
+
+  (defun spacemacs-gerbil//setup-backend ()
+    "Conditionally setup gerbil backend"
+    (pcase gerbil-backend
+      (`gerbil (spacemacs-gerbil//setup-gerbil))
+      (`treadmill (spacemacs-gerbil//setup-treadmill))
+      (`slime (spacemacs-gerbil//setup-slime))))
+
+  (defun spacemacs-gerbil//setup-gerbil ()
+    (gerbil-mode))
+
+  (defun spacemacs-gerbil//setup-treadmill ()
+    (treadmill-mode))
+
+  )

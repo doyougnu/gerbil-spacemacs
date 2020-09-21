@@ -40,30 +40,31 @@
                             company
                             (gambit :location local)
                             (gerbil-mode :location local :requires comint)
-                            (treadmill :location (recipe
-                                                  :fetcher github
-                                                  :repo "thunknyc/emacs-treadmill"))))
+                            ;; (treadmill :location (recipe
+                            ;;                       :fetcher github
+                            ;;                       :repo "thunknyc/emacs-treadmill"))
+                            ))
 
 
-(defun gerbil/init-treadmill ()
-  (use-package treadmill-mode
-    :defer t
-    :init
-    (progn
-      (spacemacs/register-repl 'treadmill-mode 'treadmill-spawn "treadmill")
-      (add-hook 'gerbil-mode-hook #'treadmill-gerbil-mode))
-    :config
-    (progn
-      (dolist (prefix '(("m'" . "start")
-                        ("ms" . "console-commands")
-                        ("mh" . "help")))
-        (spacemacs/declare-prefix-for-mode 'treadmill-mode (car prefix) (cdr prefix)))
+;; (defun gerbil/init-treadmill ()
+;;   (use-package treadmill-mode
+;;     :defer t
+;;     :init
+;;     (progn
+;;       (spacemacs/register-repl 'treadmill-mode 'treadmill-spawn "treadmill")
+;;       (add-hook 'gerbil-mode-hook #'treadmill-gerbil-mode))
+;;     :config
+;;     (progn
+;;       (dolist (prefix '(("m'" . "start")
+;;                         ("ms" . "console-commands")
+;;                         ("mh" . "help")))
+;;         (spacemacs/declare-prefix-for-mode 'treadmill-mode (car prefix) (cdr prefix)))
 
-      (spacemacs/set-leader-keys-for-major-mode 'treadmill-mode
-        "'"  'treadmill-ia-switch
-        ;; "cc" 'treadmill-connect
-        ;; "ce" 'gerbil/ping!
-        ))))
+;;       (spacemacs/set-leader-keys-for-major-mode 'treadmill-mode
+;;         "'"  'treadmill-ia-switch
+;;         ;; "cc" 'treadmill-connect
+;;         ;; "ce" 'gerbil/ping!
+;;         ))))
 
 (defun gerbil/post-init-linum ()
   (when gerbil-enable-linum
@@ -111,10 +112,8 @@
            ("\\.pkg\\'" . gerbil-mode))
     :config
     (progn
-      ;; hooks
-      ;; need to set gambit-inferior here to avoid error
-
-
+      ;; dispatch the backend
+      (add-hook 'scheme-mode-local-vars-hook #'spacemacs-gerbil//setup-gerbil)
 
       ;; tags
       (let ((tags (locate-dominating-file default-directory "TAGS")))

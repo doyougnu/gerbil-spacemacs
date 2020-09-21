@@ -17,7 +17,7 @@
   "If not set in $GERBIL_HOME, set this to GERBIL_HOME in your .spacemacs")
 
 (defvar gerbil-gxi "/bin/gxi"
-  "path to gxi executable, relateive to 'gerbil-home")
+  "path to gxi executable, relative to 'gerbil-home")
 
 (defvar gambit-home (getenv "GAMBIT_HOME")
   "If not set in $GERBIL_HOME, set this to GAMBIT_HOME in your .spacemacs")
@@ -30,3 +30,7 @@
 
 (defvar gerbil-pkg-tags-location "~/.gerbil/pkg/TAGS"
   "Set this if your TAGS file is not $GERBIL_HOME/pkg/TAGS")
+
+(defvar gerbil-backend nil
+  "Backend used for repl, completion and TAGS. Available options
+  are `gerbil', `treadmill', `slime'")
