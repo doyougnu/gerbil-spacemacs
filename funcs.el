@@ -3,6 +3,9 @@
   (defun gerbil/ping! ()
     (message "pong!"))
 
+  (defun gerbil/load-current-buffer ()
+    (scheme-load-file buffer-file-name))
+
   (defun clear-comint-buffer ()
     (interactive)
     (with-current-buffer "*scheme*"
@@ -39,5 +42,6 @@
 
   (defun spacemacs-gerbil//setup-treadmill ()
     (treadmill-mode))
+
 
   )

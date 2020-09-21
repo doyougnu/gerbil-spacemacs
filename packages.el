@@ -38,7 +38,7 @@
                             rainbow-identifiers
                             rainbow-delimiters
                             company
-                            (gambit :location local)
+                            (gambit-mode :location local)
                             (gerbil-mode :location local :requires comint)
                             ;; (treadmill :location (recipe
                             ;;                       :fetcher github
@@ -99,16 +99,18 @@
   (add-hook 'gerbil-repl-mode-hook 'eldoc-mode)
   (add-hook 'gerbil-interaction-mode-hook 'eldoc-mode))
 
-(defun gerbil/init-gambit ()
-  (use-package gambit
+(defun gerbil/init-gambit-mode ()
+  (use-package gambit-mode
     :defer t
-    :init
-    (add-hook 'inferior-scheme-mode-hook 'gambit-inferior-mode)))
+    :config
+    (add-hook 'inferior-scheme-mode-hook 'gambit-inferior-mode)
+    (add-hook 'scheme-mode-hook (function gambit-mode))))
 
 (defun gerbil/init-gerbil-mode ()
   (use-package gerbil-mode
     :defer t
     :mode (("\\.ss\\'"  . gerbil-mode)
+           ("\\.scm\\'" . gerbil-mode)
            ("\\.pkg\\'" . gerbil-mode))
     :config
     (progn
@@ -116,10 +118,10 @@
       (add-hook 'scheme-mode-local-vars-hook #'spacemacs-gerbil//setup-gerbil)
 
       ;; tags
-      (let ((tags (locate-dominating-file default-directory "TAGS")))
-        (when tags (visit-tags-table tags)))
-      (visit-tags-table gerbil-src-tags-location)
-      (visit-tags-table gerbil-pkg-tags-location)
+      ;; (let ((tags (locate-dominating-file default-directory "TAGS")))
+      ;;   (when tags (visit-tags-table tags)))
+      ;; (visit-tags-table gerbil-src-tags-location)
+      ;; (visit-tags-table gerbil-pkg-tags-location)
 
       ;; keys
       (spacemacs/set-leader-keys-for-major-mode 'gerbil-mode
@@ -135,6 +137,7 @@
         "sK" 'restart-scheme
 
         "bl" 'scheme-load-file
+        "bL" 'gerbil/load-current-buffer
         "bi" 'gerbil-import-current-buffer
         "br" 'gerbil-reload-current-buffer
         "bc" 'gerbil-compile-current-buffer
