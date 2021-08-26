@@ -74,7 +74,10 @@
 
 (defun gerbil/post-init-smartparens ()
   (add-hook 'gerbil-mode-hook      #'spacemacs//activate-smartparens)
-  (add-hook 'gerbil-repl-mode-hook #'spacemacs//activate-smartparens))
+  (add-hook 'gerbil-repl-mode-hook #'spacemacs//activate-smartparens)
+  (with-eval-after-load 'smartparens
+    (sp-local-pair '(gerbil-mode gerbil-repl-mode) "`" nil :actions :rem)
+    (sp-local-pair '(gerbil-mode gerbil-repl-mode) "'" nil :actions :rem)))
 
 (defun gerbil/post-init-eldoc ()
   (add-hook 'gerbil-mode-hook 'eldoc-mode)
