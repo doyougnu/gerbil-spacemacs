@@ -29,7 +29,8 @@
 
 ;;; Code:
 
-(defconst gerbil-packages '(eldoc
+(defconst gerbil-packages '(auto-highlight-symbol
+                            eldoc
                             evil-cleverparens
                             parinfer
                             ggtags
@@ -42,6 +43,11 @@
                             (gambit-mode :location local)
                             (gerbil-mode :location local :requires comint)
                             ))
+
+
+(defun gerbil/post-init-auto-highlight-symbol ()
+  (with-eval-after-load 'auto-highlight-symbol
+    (add-to-list 'ahs-plugin-bod-modes 'gerbil-mode)))
 
 
 (defun gerbil/post-init-linum ()
@@ -76,8 +82,8 @@
   (add-hook 'gerbil-mode-hook      #'spacemacs//activate-smartparens)
   (add-hook 'gerbil-repl-mode-hook #'spacemacs//activate-smartparens)
   (with-eval-after-load 'smartparens
-    (sp-local-pair '(gerbil-mode gerbil-repl-mode) "`" nil :actions :rem)
-    (sp-local-pair '(gerbil-mode gerbil-repl-mode) "'" nil :actions :rem)))
+    (sp-local-pair 'gerbil-mode  "`" nil :actions :rem)
+    (sp-local-pair 'gerbil-mode  "'" nil :actions :rem)))
 
 (defun gerbil/post-init-eldoc ()
   (add-hook 'gerbil-mode-hook 'eldoc-mode)
