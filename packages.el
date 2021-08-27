@@ -135,6 +135,14 @@
         "sp" 'comint-previous-input
         "sn" 'comint-next-input
         "sK" 'restart-scheme
+        "ss" 'gerbil/switch-to-repl
+
+        "ad" 'gerbil/jump-to-enclosing-repl
+        "at" 'gerbil/jump-to-top-repl
+        "ab" 'gerbil/show-backtrace
+        "ae" 'gerbil/show-environment
+        "an" 'gerbil/crawl-backtrace-newer
+        "ap" 'gerbil/crawl-backtrace-older
 
         "bl" 'scheme-load-file
         "bL" 'gerbil/load-current-buffer

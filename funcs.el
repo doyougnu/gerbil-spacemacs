@@ -4,6 +4,7 @@
     (message "pong!"))
 
   (defun gerbil/load-current-buffer ()
+    (interactive)
     (scheme-load-file buffer-file-name))
 
   (defun clear-comint-buffer ()
@@ -11,6 +12,34 @@
     (with-current-buffer "*scheme*"
       (let ((comint-buffer-maximum-size 0))
         (comint-truncate-buffer))))
+
+  (defun gerbil/jump-to-enclosing-repl ()
+    (interactive)
+    (gerbil-send-string "#||#,d;"))
+
+  (defun gerbil/jump-to-top-repl ()
+    (interactive)
+    (gerbil-send-string "#||#,t;"))
+
+  (defun gerbil/show-backtrace ()
+    (interactive)
+    (gerbil-send-string "#||#,b;"))
+
+  (defun gerbil/show-environment ()
+    (interactive)
+    (gerbil-send-string "#||#,e;"))
+
+  (defun gerbil/crawl-backtrace-newer ()
+    (interactive)
+    (gerbil-send-string "#||#,-;"))
+
+  (defun gerbil/crawl-backtrace-older ()
+    (interactive)
+    (gerbil-send-string "#||#,+;"))
+
+  (defun gerbil/switch-to-repl ()
+    (interactive)
+    (switch-to-buffer-other-window "*scheme*" nil))
 
   (defun spacemacs//gerbil-spawn-repl ()
     (interactive)
