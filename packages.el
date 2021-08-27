@@ -29,7 +29,8 @@
 
 ;;; Code:
 
-(defconst gerbil-packages '(eldoc
+(defconst gerbil-packages '(auto-highlight-symbol
+                            eldoc
                             evil-cleverparens
                             parinfer
                             ggtags
@@ -37,34 +38,17 @@
                             helm-gtags
                             rainbow-identifiers
                             rainbow-delimiters
+                            smartparens
                             company
                             (gambit-mode :location local)
                             (gerbil-mode :location local :requires comint)
-                            ;; (treadmill :location (recipe
-                            ;;                       :fetcher github
-                            ;;                       :repo "thunknyc/emacs-treadmill"))
                             ))
 
 
-;; (defun gerbil/init-treadmill ()
-;;   (use-package treadmill-mode
-;;     :defer t
-;;     :init
-;;     (progn
-;;       (spacemacs/register-repl 'treadmill-mode 'treadmill-spawn "treadmill")
-;;       (add-hook 'gerbil-mode-hook #'treadmill-gerbil-mode))
-;;     :config
-;;     (progn
-;;       (dolist (prefix '(("m'" . "start")
-;;                         ("ms" . "console-commands")
-;;                         ("mh" . "help")))
-;;         (spacemacs/declare-prefix-for-mode 'treadmill-mode (car prefix) (cdr prefix)))
+(defun gerbil/post-init-auto-highlight-symbol ()
+  (with-eval-after-load 'auto-highlight-symbol
+    (add-to-list 'ahs-plugin-bod-modes 'gerbil-mode)))
 
-;;       (spacemacs/set-leader-keys-for-major-mode 'treadmill-mode
-;;         "'"  'treadmill-ia-switch
-;;         ;; "cc" 'treadmill-connect
-;;         ;; "ce" 'gerbil/ping!
-;;         ))))
 
 (defun gerbil/post-init-linum ()
   (when gerbil-enable-linum
@@ -93,6 +77,13 @@
 
 (defun gerbil/post-init-parinfer ()
   (add-hook 'gerbil-mode-hook 'parinfer-mode))
+
+(defun gerbil/post-init-smartparens ()
+  (add-hook 'gerbil-mode-hook      #'spacemacs//activate-smartparens)
+  (add-hook 'gerbil-repl-mode-hook #'spacemacs//activate-smartparens)
+  (with-eval-after-load 'smartparens
+    (sp-local-pair 'gerbil-mode  "`" nil :actions :rem)
+    (sp-local-pair 'gerbil-mode  "'" nil :actions :rem)))
 
 (defun gerbil/post-init-eldoc ()
   (add-hook 'gerbil-mode-hook 'eldoc-mode)
